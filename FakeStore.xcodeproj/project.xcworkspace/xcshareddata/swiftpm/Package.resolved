@@ -1,0 +1,15 @@
+{
+  "originHash" : "6d31efbf68a0214c68a242d80244db7125bb54983ae74c3bb981ab44d2517cba",
+  "pins" : [
+    {
+      "identity" : "sdwebimage",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/sdwebimage/sdwebimage",
+      "state" : {
+        "revision" : "2de3a496eaf6df9a1312862adcfd54acd73c39c0",
+        "version" : "5.21.7"
+      }
+    }
+  ],
+  "version" : 3
+}
