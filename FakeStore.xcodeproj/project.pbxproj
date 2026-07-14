@@ -13,6 +13,7 @@
 		A0B6E3E6300601D500EDB83A /* FakeStore.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A0B6E3DB300601D500EDB83A /* FakeStore.xcdatamodeld */; };
 		A0B6E3E7300601D500EDB83A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B6E3DF300601D500EDB83A /* SceneDelegate.swift */; };
 		A0B6E3F03006023D00EDB83A /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B6E3EF3006023700EDB83A /* Store.swift */; };
+		A0B6E3F230060A6D00EDB83A /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B6E3F130060A6300EDB83A /* APIService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		A0B6E3DF300601D500EDB83A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		A0B6E3E1300601D500EDB83A /* FakeStore.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FakeStore.xcdatamodel; sourceTree = "<group>"; };
 		A0B6E3EF3006023700EDB83A /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		A0B6E3F130060A6300EDB83A /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,9 +58,9 @@
 		A0B6E3E0300601D500EDB83A /* FakeStore */ = {
 			isa = PBXGroup;
 			children = (
+				A0B6E3EC300601FF00EDB83A /* Model */,
 				A0B6E3EE3006020900EDB83A /* Service */,
 				A0B6E3ED3006020500EDB83A /* Flow */,
-				A0B6E3EC300601FF00EDB83A /* Model */,
 				A0B6E3EB300601FA00EDB83A /* ViewModel */,
 				A0B6E3EA300601F400EDB83A /* View */,
 				A0B6E3E9300601E500EDB83A /* Assets */,
@@ -119,6 +121,7 @@
 		A0B6E3EE3006020900EDB83A /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				A0B6E3F130060A6300EDB83A /* APIService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -197,6 +200,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A0B6E3E5300601D500EDB83A /* AppDelegate.swift in Sources */,
+				A0B6E3F230060A6D00EDB83A /* APIService.swift in Sources */,
 				A0B6E3E6300601D500EDB83A /* FakeStore.xcdatamodeld in Sources */,
 				A0B6E3E7300601D500EDB83A /* SceneDelegate.swift in Sources */,
 				A0B6E3F03006023D00EDB83A /* Store.swift in Sources */,
