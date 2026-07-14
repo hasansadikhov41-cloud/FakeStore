@@ -28,6 +28,8 @@ class MainViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        title = "FakeStore"
+        
         binding()
         setupViews()
         Task {
@@ -91,6 +93,9 @@ extension MainViewController : UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductCell.identifier, for: indexPath) as! ProductCell
         let selectedProduct = mainViewModel.productList[indexPath.row]
+        cell.buttonTapped = {
+            print(selectedProduct.price)
+        }
         cell.configure(product: selectedProduct)
         return cell
     }

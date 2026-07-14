@@ -4,6 +4,8 @@ import SDWebImage
 
 class ProductCell : UICollectionViewCell {
     
+    var buttonTapped : (() -> Void)?
+    
     private let productImage : UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -28,16 +30,21 @@ class ProductCell : UICollectionViewCell {
         label.numberOfLines = 1
         label.textColor = .black
         label.textAlignment = .left
-        label.font = .systemFont(ofSize: 12, weight: .regular)
+        label.font = .systemFont(ofSize: 16, weight: .regular)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let shipButton : UIButton = {
-        var configuration = UIButton.Configuration.plain()
+        var configuration = UIButton.Configuration.glass()
+        configuration.cornerStyle = .capsule
+        
         configuration.image = UIImage(systemName: "cart.badge.plus")
+        configuration.contentInsets = NSDirectionalEdgeInsets(top: 15, leading: 15, bottom: 15, trailing: 18)
         configuration.baseForegroundColor = .darkGray
         let button = UIButton(configuration: configuration)
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.black.cgColor
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -47,8 +54,9 @@ class ProductCell : UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = .systemGray
+        contentView.backgroundColor = UIColor(red: 247/255, green: 247/255, blue: 245/255, alpha: 1)
         
+        shipButton.addTarget(self, action: #selector(buttonTapp), for: .touchUpInside)
         setupViews()
         setupConstraints()
     }
@@ -56,7 +64,9 @@ class ProductCell : UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+    @objc func buttonTapp(){
+        buttonTapped?()
+    }
     private func setupViews(){
         contentView.addSubview(productImage)
         contentView.addSubview(productTitle)
@@ -81,7 +91,6 @@ class ProductCell : UICollectionViewCell {
             shipButton.topAnchor.constraint(equalTo: productTitle.bottomAnchor, constant: 1),
             shipButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor , constant: -1),
             shipButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -1),
-            shipButton.leadingAnchor.constraint(equalTo: priceLabel.trailingAnchor, constant: 10)
         ])
     }
     
@@ -89,7 +98,9 @@ class ProductCell : UICollectionViewCell {
         let url = URL(string: product.thumbnail)
         productImage.sd_setImage(with: url)
         
+        let price = String(product.price)
+    
         productTitle.text = product.title
-        priceLabel.text = String(product.price)
+        priceLabel.text = price
     }
 }
