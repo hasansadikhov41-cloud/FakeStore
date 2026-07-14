@@ -26,12 +26,13 @@ protocol ProductServiceProtocol : AnyObject {
 class APIService : ProductServiceProtocol {
     
     func fetchData() async throws -> [Product] {
-        
+
         guard let url = URL(string: "https://dummyjson.com/products") else { throw StoreError.invalidURL }
         
         let (data , response) = try await URLSession.shared.data(from: url)
-        
+
         guard let response = response as? HTTPURLResponse , (200...299).contains(response.statusCode) else { throw StoreError.invalidResponse}
+
         do {
             let jsonData = try JSONDecoder().decode(Store.self , from: data)
             return jsonData.products

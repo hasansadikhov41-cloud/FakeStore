@@ -1,9 +1,11 @@
 import Foundation
 import UIKit
+import Combine
 
 class MainViewController : UIViewController {
     
     let mainViewModel : MainViewModel
+    var cancellables = Set<AnyCancellable>()
     
     init(mainViewModel: MainViewModel) {
         self.mainViewModel = mainViewModel
@@ -26,7 +28,12 @@ class MainViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        binding()
         setupViews()
+        Task {
+            await mainViewModel.fetchProducts()
+        }
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -41,7 +48,7 @@ class MainViewController : UIViewController {
             
             layout.itemSize = CGSize(width: itemWidth, height: itemHeight)
             layout.minimumInteritemSpacing = spacing
-            layout.minimumInteritemSpacing = spacing
+            layout.minimumLineSpacing = spacing
             layout.sectionInset = UIEdgeInsets(top: 0, left: padding, bottom: 0, right: padding)
         }
     }
@@ -59,6 +66,14 @@ class MainViewController : UIViewController {
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    private func binding(){
+        mainViewModel.$productList
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.collectionView.reloadData()
+            }.store(in: &cancellables)
     }
     
     
