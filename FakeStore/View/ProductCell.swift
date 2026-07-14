@@ -9,7 +9,7 @@ class ProductCell : UICollectionViewCell {
     private let productImage : UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = 12
+        imageView.backgroundColor = UIColor.secondarySystemGroupedBackground
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -17,10 +17,11 @@ class ProductCell : UICollectionViewCell {
     
     private let productTitle : UILabel = {
         let label = UILabel()
-        label.numberOfLines = 1
-        label.textColor = .black
+        label.numberOfLines = 2
+        label.textColor = .label
         label.textAlignment = .left
-        label.font = .systemFont(ofSize: 10, weight: .light)
+        label.font = .preferredFont(forTextStyle: .subheadline)
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -28,23 +29,22 @@ class ProductCell : UICollectionViewCell {
     private let priceLabel : UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
-        label.textColor = .black
+        label.textColor = .label
         label.textAlignment = .left
-        label.font = .systemFont(ofSize: 16, weight: .regular)
+        label.font = .preferredFont(forTextStyle: .headline)
+        label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let shipButton : UIButton = {
-        var configuration = UIButton.Configuration.glass()
-        configuration.cornerStyle = .capsule
-        
+        var configuration = UIButton.Configuration.tinted()
+        configuration.cornerStyle = .medium
         configuration.image = UIImage(systemName: "cart.badge.plus")
-        configuration.contentInsets = NSDirectionalEdgeInsets(top: 15, leading: 15, bottom: 15, trailing: 18)
-        configuration.baseForegroundColor = .darkGray
+        configuration.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 10, bottom: 8, trailing: 10)
+        configuration.baseForegroundColor = .systemBlue
         let button = UIButton(configuration: configuration)
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.black.cgColor
+        button.accessibilityLabel = "Add to cart"
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -54,7 +54,16 @@ class ProductCell : UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = UIColor(red: 247/255, green: 247/255, blue: 245/255, alpha: 1)
+        contentView.backgroundColor = .secondarySystemBackground
+        contentView.layer.cornerRadius = 18
+        contentView.layer.cornerCurve = .continuous
+        contentView.layer.masksToBounds = true
+
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.08
+        layer.shadowRadius = 8
+        layer.shadowOffset = CGSize(width: 0, height: 3)
+        layer.masksToBounds = false
         
         shipButton.addTarget(self, action: #selector(buttonTapp), for: .touchUpInside)
         setupViews()
@@ -67,6 +76,13 @@ class ProductCell : UICollectionViewCell {
     @objc func buttonTapp(){
         buttonTapped?()
     }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        productImage.image = nil
+        productTitle.text = nil
+        priceLabel.text = nil
+    }
     private func setupViews(){
         contentView.addSubview(productImage)
         contentView.addSubview(productTitle)
@@ -75,22 +91,21 @@ class ProductCell : UICollectionViewCell {
     }
     private func setupConstraints(){
         NSLayoutConstraint.activate([
-            productImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
-            productImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4),
-            productImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
-            productImage.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.8),
+            productImage.topAnchor.constraint(equalTo: contentView.topAnchor),
+            productImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            productImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            productImage.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.62),
             
-            productTitle.topAnchor.constraint(equalTo: productImage.bottomAnchor, constant: 4),
-            productTitle.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
-            productTitle.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
+            productTitle.topAnchor.constraint(equalTo: productImage.bottomAnchor, constant: 12),
+            productTitle.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
+            productTitle.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
             
-            priceLabel.topAnchor.constraint(equalTo: productTitle.bottomAnchor, constant: 2),
-            priceLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4),
-            priceLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4),
+            priceLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
+            priceLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
             
-            shipButton.topAnchor.constraint(equalTo: productTitle.bottomAnchor, constant: 1),
-            shipButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor , constant: -1),
-            shipButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -1),
+            shipButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
+            shipButton.centerYAnchor.constraint(equalTo: priceLabel.centerYAnchor),
+            shipButton.leadingAnchor.constraint(greaterThanOrEqualTo: priceLabel.trailingAnchor, constant: 8),
         ])
     }
     
@@ -98,9 +113,8 @@ class ProductCell : UICollectionViewCell {
         let url = URL(string: product.thumbnail)
         productImage.sd_setImage(with: url)
         
-        let price = String(product.price)
-    
         productTitle.text = product.title
-        priceLabel.text = price
+        priceLabel.text = String(format: "$%.2f", product.price)
+        accessibilityLabel = "\(product.title), \(priceLabel.text ?? "k")"
     }
 }
