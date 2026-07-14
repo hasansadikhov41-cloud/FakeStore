@@ -6,30 +6,23 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		A0B6E3E2300601D500EDB83A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0B6E3DA300601D500EDB83A /* Assets.xcassets */; };
+		A0B6E3E4300601D500EDB83A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A0B6E3DE300601D500EDB83A /* LaunchScreen.storyboard */; };
+		A0B6E3E5300601D500EDB83A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B6E3D9300601D500EDB83A /* AppDelegate.swift */; };
+		A0B6E3E6300601D500EDB83A /* FakeStore.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A0B6E3DB300601D500EDB83A /* FakeStore.xcdatamodeld */; };
+		A0B6E3E7300601D500EDB83A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B6E3DF300601D500EDB83A /* SceneDelegate.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		A0B6E3BE3006014C00EDB83A /* FakeStore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FakeStore.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A0B6E3D9300601D500EDB83A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		A0B6E3DA300601D500EDB83A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A0B6E3DC300601D500EDB83A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A0B6E3DD300601D500EDB83A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A0B6E3DF300601D500EDB83A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		A0B6E3E1300601D500EDB83A /* FakeStore.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FakeStore.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		A0B6E3D33006014D00EDB83A /* Exceptions for "FakeStore" folder in "FakeStore" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = A0B6E3BD3006014C00EDB83A /* FakeStore */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		A0B6E3C03006014C00EDB83A /* FakeStore */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				A0B6E3D33006014D00EDB83A /* Exceptions for "FakeStore" folder in "FakeStore" target */,
-			);
-			path = FakeStore;
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		A0B6E3BB3006014C00EDB83A /* Frameworks */ = {
@@ -45,7 +38,7 @@
 		A0B6E3B53006014C00EDB83A = {
 			isa = PBXGroup;
 			children = (
-				A0B6E3C03006014C00EDB83A /* FakeStore */,
+				A0B6E3E0300601D500EDB83A /* FakeStore */,
 				A0B6E3BF3006014C00EDB83A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -56,6 +49,75 @@
 				A0B6E3BE3006014C00EDB83A /* FakeStore.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		A0B6E3E0300601D500EDB83A /* FakeStore */ = {
+			isa = PBXGroup;
+			children = (
+				A0B6E3EE3006020900EDB83A /* Service */,
+				A0B6E3ED3006020500EDB83A /* Flow */,
+				A0B6E3EC300601FF00EDB83A /* Model */,
+				A0B6E3EB300601FA00EDB83A /* ViewModel */,
+				A0B6E3EA300601F400EDB83A /* View */,
+				A0B6E3E9300601E500EDB83A /* Assets */,
+				A0B6E3E8300601D800EDB83A /* Delegates */,
+				A0B6E3DC300601D500EDB83A /* Info.plist */,
+			);
+			path = FakeStore;
+			sourceTree = "<group>";
+		};
+		A0B6E3E8300601D800EDB83A /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				A0B6E3D9300601D500EDB83A /* AppDelegate.swift */,
+				A0B6E3DF300601D500EDB83A /* SceneDelegate.swift */,
+			);
+			path = Delegates;
+			sourceTree = "<group>";
+		};
+		A0B6E3E9300601E500EDB83A /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				A0B6E3DA300601D500EDB83A /* Assets.xcassets */,
+				A0B6E3DB300601D500EDB83A /* FakeStore.xcdatamodeld */,
+				A0B6E3DE300601D500EDB83A /* LaunchScreen.storyboard */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		A0B6E3EA300601F400EDB83A /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		A0B6E3EB300601FA00EDB83A /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		A0B6E3EC300601FF00EDB83A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		A0B6E3ED3006020500EDB83A /* Flow */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Flow;
+			sourceTree = "<group>";
+		};
+		A0B6E3EE3006020900EDB83A /* Service */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Service;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -72,9 +134,6 @@
 			buildRules = (
 			);
 			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				A0B6E3C03006014C00EDB83A /* FakeStore */,
 			);
 			name = FakeStore;
 			packageProductDependencies = (
@@ -122,6 +181,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0B6E3E2300601D500EDB83A /* Assets.xcassets in Resources */,
+				A0B6E3E4300601D500EDB83A /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,10 +193,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0B6E3E5300601D500EDB83A /* AppDelegate.swift in Sources */,
+				A0B6E3E6300601D500EDB83A /* FakeStore.xcdatamodeld in Sources */,
+				A0B6E3E7300601D500EDB83A /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		A0B6E3DE300601D500EDB83A /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A0B6E3DD300601D500EDB83A /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		A0B6E3D53006014D00EDB83A /* Debug */ = {
@@ -150,7 +225,6 @@
 				INFOPLIST_FILE = FakeStore/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -182,7 +256,6 @@
 				INFOPLIST_FILE = FakeStore/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -345,6 +418,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		A0B6E3DB300601D500EDB83A /* FakeStore.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				A0B6E3E1300601D500EDB83A /* FakeStore.xcdatamodel */,
+			);
+			currentVersion = A0B6E3E1300601D500EDB83A /* FakeStore.xcdatamodel */;
+			path = FakeStore.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = A0B6E3B63006014C00EDB83A /* Project object */;
 }
