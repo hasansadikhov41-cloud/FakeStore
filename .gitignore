@@ -1,0 +1,24 @@
+# macOS
+.DS_Store
+
+# Xcode user data
+xcuserdata/
+*.xcuserstate
+
+# Build
+build/
+DerivedData/
+
+# Swift Package Manager
+.build/
+
+# CocoaPods
+Pods/
+
+# Fastlane screenshots və test output
+fastlane/report.xml
+fastlane/screenshots
+fastlane/test_output
+
+# Tuist
+Tuist/.cache
