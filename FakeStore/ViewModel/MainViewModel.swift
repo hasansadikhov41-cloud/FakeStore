@@ -20,4 +20,9 @@ class MainViewModel : ObservableObject {
             print(error.localizedDescription)
         }
     }
+    
+    var numberOfItems : Int {
+        productList.count
+    }
+    
 }
