@@ -1,44 +1,48 @@
 import Foundation
 
 enum StoreError : LocalizedError {
-    case invalidURL
     case invalidResponse
     case invalidData
     
     var errorDescription: String? {
         switch self {
-        case .invalidURL:
-            return "Error about invalid URL"
         case .invalidData:
-            return "Error about invalid Data"
+            return "The server returned unreadable product data."
         case .invalidResponse:
-            return "Error about invalid Response"
+            return "The server returned an invalid response."
         }
     }
 }
 
-protocol ProductServiceProtocol : AnyObject {
-    
-    func fetchData() async throws -> [Product]
-    
+protocol ProductServiceProtocol {
+    func fetchProducts() async throws -> [Product]
 }
 
-class APIService : ProductServiceProtocol {
-    
-    func fetchData() async throws -> [Product] {
+final class APIService: ProductServiceProtocol {
+    private let session: URLSession
+    private let endpoint: URL
 
-        guard let url = URL(string: "https://dummyjson.com/products") else { throw StoreError.invalidURL }
-        
-        let (data , response) = try await URLSession.shared.data(from: url)
+    init(
+        session: URLSession = .shared,
+        endpoint: URL = URL(string: "https://dummyjson.com/products")!
+    ) {
+        self.session = session
+        self.endpoint = endpoint
+    }
 
-        guard let response = response as? HTTPURLResponse , (200...299).contains(response.statusCode) else { throw StoreError.invalidResponse}
+    func fetchProducts() async throws -> [Product] {
+        let (data, response) = try await session.data(from: endpoint)
+
+        guard let response = response as? HTTPURLResponse,
+              (200...299).contains(response.statusCode) else {
+            throw StoreError.invalidResponse
+        }
 
         do {
-            let jsonData = try JSONDecoder().decode(Store.self , from: data)
+            let jsonData = try JSONDecoder().decode(Store.self, from: data)
             return jsonData.products
-        }catch{
+        } catch {
             throw StoreError.invalidData
         }
     }
-    
 }

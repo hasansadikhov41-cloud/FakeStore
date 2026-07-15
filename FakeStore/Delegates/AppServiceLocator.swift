@@ -1,11 +1,12 @@
 import Swinject
 
-protocol AppServiceLocating {
-    func makeMainViewController(coordinator: AppCoordinatorProtocol) -> MainViewController
-    func makeDetailViewController(product: Product) -> DetailViewController
+protocol ServiceLocator: AnyObject {
+    func resolve<Service>(_ serviceType: Service.Type) -> Service
 }
 
-final class AppServiceLocator: AppServiceLocating {
+/// Registers the application's object graph. Resolve dependencies only in composition layers,
+/// such as factories; never from view controllers or view models.
+final class AppServiceLocator: ServiceLocator {
     private let container: Container
 
     init(container: Container = Container()) {
@@ -13,28 +14,24 @@ final class AppServiceLocator: AppServiceLocating {
         registerDependencies()
     }
 
+    func resolve<Service>(_ serviceType: Service.Type) -> Service {
+        guard let service = container.resolve(serviceType) else {
+            preconditionFailure("\(serviceType) has not been registered.")
+        }
+        return service
+    }
+
     private func registerDependencies() {
         container.register(ProductServiceProtocol.self) { _ in
             APIService()
-        }.inObjectScope(.container)
+        }
+        .inObjectScope(.container)
 
         container.register(MainViewModel.self) { resolver in
-            guard let service = resolver.resolve(ProductServiceProtocol.self) else {
-                preconditionFailure("ProductServiceProtocol is not registered.")
+            guard let productService = resolver.resolve(ProductServiceProtocol.self) else {
+                preconditionFailure("ProductServiceProtocol has not been registered.")
             }
-            return MainViewModel(service: service)
+            return MainViewModel(productService: productService)
         }
-    }
-
-    func makeMainViewController(coordinator: AppCoordinatorProtocol) -> MainViewController {
-        guard let viewModel = container.resolve(MainViewModel.self) else {
-            preconditionFailure("MainViewModel is not registered.")
-        }
-
-        return MainViewFactory(viewModel: viewModel, coordinator: coordinator).makeMainViewController()
-    }
-
-    func makeDetailViewController(product: Product) -> DetailViewController {
-        DetailViewFactory().make(product: product)
     }
 }

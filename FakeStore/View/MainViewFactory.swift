@@ -1,15 +1,16 @@
 import Foundation
 
 final class MainViewFactory {
-    private let viewModel: MainViewModel
-    private let coordinator: AppCoordinatorProtocol
+    private let serviceLocator: ServiceLocator
 
-    init(viewModel: MainViewModel, coordinator: AppCoordinatorProtocol) {
-        self.viewModel = viewModel
-        self.coordinator = coordinator
+    init(serviceLocator: ServiceLocator) {
+        self.serviceLocator = serviceLocator
     }
 
-    func makeMainViewController() -> MainViewController {
-        MainViewController(mainViewModel: viewModel, coordinator: coordinator)
+    func makeMainViewController(coordinator: MainRouting) -> MainViewController {
+        MainViewController(
+            mainViewModel: serviceLocator.resolve(MainViewModel.self),
+            coordinator: coordinator
+        )
     }
 }

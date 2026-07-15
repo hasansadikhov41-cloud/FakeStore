@@ -43,6 +43,7 @@ class DetailViewController : UIViewController {
         ])
     }
     private func setupImage(){
-        self.imageView.sd_setImage(with: URL(string: product.images.first!))
+        guard let imageURL = product.images.first.flatMap(URL.init(string:)) else { return }
+        imageView.sd_setImage(with: imageURL)
     }
 }

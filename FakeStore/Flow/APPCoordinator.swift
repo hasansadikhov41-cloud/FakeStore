@@ -2,28 +2,34 @@ import UIKit
 
 protocol AppCoordinatorProtocol: AnyObject {
     func start()
+}
+
+protocol MainRouting: AnyObject {
     func showDetail(for product: Product)
 }
 
-final class AppCoordinator: AppCoordinatorProtocol {
-    private let serviceLocator: AppServiceLocating
+final class AppCoordinator: AppCoordinatorProtocol, MainRouting {
+    private let mainViewFactory: MainViewFactory
+    private let detailViewFactory: DetailViewFactory
     private let navigationController: UINavigationController
 
     init(
         navigationController: UINavigationController,
-        serviceLocator: AppServiceLocating
+        mainViewFactory: MainViewFactory,
+        detailViewFactory: DetailViewFactory
     ) {
         self.navigationController = navigationController
-        self.serviceLocator = serviceLocator
+        self.mainViewFactory = mainViewFactory
+        self.detailViewFactory = detailViewFactory
     }
 
     func start() {
-        let mainViewController = serviceLocator.makeMainViewController(coordinator: self)
+        let mainViewController = mainViewFactory.makeMainViewController(coordinator: self)
         navigationController.setViewControllers([mainViewController], animated: false)
     }
 
     func showDetail(for product: Product) {
-        let detailViewController = serviceLocator.makeDetailViewController(product: product)
+        let detailViewController = detailViewFactory.make(product: product)
         navigationController.pushViewController(detailViewController, animated: true)
     }
 }

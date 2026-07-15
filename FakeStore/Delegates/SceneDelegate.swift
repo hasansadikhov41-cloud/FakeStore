@@ -21,7 +21,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let navigationController = UINavigationController()
         let serviceLocator = AppServiceLocator()
-        coordinator = AppCoordinator(navigationController: navigationController, serviceLocator: serviceLocator)
+        let mainViewFactory = MainViewFactory(serviceLocator: serviceLocator)
+        let detailViewFactory = DetailViewFactory()
+        coordinator = AppCoordinator(
+            navigationController: navigationController,
+            mainViewFactory: mainViewFactory,
+            detailViewFactory: detailViewFactory
+        )
         coordinator?.start()
         
         let window = UIWindow(windowScene: windowScene)

@@ -1,28 +1,33 @@
 import Foundation
-import UIKit
 import Combine
 
-class MainViewModel : ObservableObject {
-    
-    @Published var productList : [Product] = []
-    
-    let service : ProductServiceProtocol
-    
-    init(service: ProductServiceProtocol) {
-        self.service = service
+@MainActor
+final class MainViewModel: ObservableObject {
+    enum LoadState: Equatable {
+        case idle
+        case loading
+        case loaded
+        case failed(message: String)
     }
-    
-    func fetchProducts() async {
+
+    @Published private(set) var products: [Product] = []
+    @Published private(set) var state: LoadState = .idle
+
+    private let productService: ProductServiceProtocol
+
+    init(productService: ProductServiceProtocol) {
+        self.productService = productService
+    }
+
+    func loadProducts() async {
+        guard state != .loading else { return }
+
+        state = .loading
         do {
-            let products = try await service.fetchData()
-            self.productList = products
-        }catch{
-            print(error.localizedDescription)
+            products = try await productService.fetchProducts()
+            state = .loaded
+        } catch {
+            state = .failed(message: error.localizedDescription)
         }
     }
-    
-    var numberOfItems : Int {
-        productList.count
-    }
-    
 }

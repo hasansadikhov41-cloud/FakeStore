@@ -4,11 +4,11 @@ import Combine
 
 class MainViewController : UIViewController {
     
-    let mainViewModel : MainViewModel
-    var cancellables = Set<AnyCancellable>()
-    private weak var coordinator: AppCoordinatorProtocol?
+    private let mainViewModel: MainViewModel
+    private var cancellables = Set<AnyCancellable>()
+    private weak var coordinator: MainRouting?
     
-    init(mainViewModel: MainViewModel, coordinator: AppCoordinatorProtocol) {
+    init(mainViewModel: MainViewModel, coordinator: MainRouting) {
         self.mainViewModel = mainViewModel
         self.coordinator = coordinator
         super.init(nibName: nil , bundle: nil)
@@ -29,6 +29,13 @@ class MainViewController : UIViewController {
         cView.translatesAutoresizingMaskIntoConstraints = false
         return cView
     }()
+
+    private let activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.hidesWhenStopped = true
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +47,7 @@ class MainViewController : UIViewController {
         binding()
         setupViews()
         Task {
-            await mainViewModel.fetchProducts()
+            await mainViewModel.loadProducts()
         }
         
     }
@@ -80,6 +87,7 @@ class MainViewController : UIViewController {
     private func setupViews() {
         collectionView.register(ProductCell.self, forCellWithReuseIdentifier: ProductCell.identifier)
         view.addSubview(collectionView)
+        view.addSubview(activityIndicator)
         
         collectionView.dataSource = self
         
@@ -87,29 +95,60 @@ class MainViewController : UIViewController {
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
     
     private func binding(){
-        mainViewModel.$productList
+        mainViewModel.$products
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.collectionView.reloadData()
             }.store(in: &cancellables)
+
+        mainViewModel.$state
+            .removeDuplicates()
+            .sink { [weak self] state in
+                self?.render(state)
+            }
+            .store(in: &cancellables)
     }
-    
-    
+
+    private func render(_ state: MainViewModel.LoadState) {
+        switch state {
+        case .idle, .loaded:
+            activityIndicator.stopAnimating()
+        case .loading:
+            activityIndicator.startAnimating()
+        case let .failed(message):
+            activityIndicator.stopAnimating()
+            presentErrorAlert(message: message)
+        }
+    }
+
+    private func presentErrorAlert(message: String) {
+        guard presentedViewController == nil else { return }
+
+        let alert = UIAlertController(title: "Unable to Load Products", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Retry", style: .default) { [weak self] _ in
+            guard let self else { return }
+            Task { await self.mainViewModel.loadProducts() }
+        })
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        present(alert, animated: true)
+    }
 }
 
 extension MainViewController : UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-       return mainViewModel.numberOfItems
+       return mainViewModel.products.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductCell.identifier, for: indexPath) as! ProductCell
-        let selectedProduct = mainViewModel.productList[indexPath.row]
+        let selectedProduct = mainViewModel.products[indexPath.row]
         cell.configure(product: selectedProduct)
         cell.onShipButtonTapped = { [weak self] in
             self?.coordinator?.showDetail(for: selectedProduct)
