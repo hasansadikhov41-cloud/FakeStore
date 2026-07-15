@@ -1,25 +1,29 @@
-import Foundation
 import UIKit
 
-protocol CoordinatorProtocol : AnyObject {
-    var navigationController : UINavigationController {get set}
-    
+protocol AppCoordinatorProtocol: AnyObject {
     func start()
+    func showDetail(for product: Product)
 }
 
-class APPCoordinator : CoordinatorProtocol {
-    
-    var navigationController: UINavigationController
-    
-    init(navigationController: UINavigationController) {
+final class AppCoordinator: AppCoordinatorProtocol {
+    private let serviceLocator: AppServiceLocating
+    private let navigationController: UINavigationController
+
+    init(
+        navigationController: UINavigationController,
+        serviceLocator: AppServiceLocating
+    ) {
         self.navigationController = navigationController
+        self.serviceLocator = serviceLocator
     }
-    
+
     func start() {
-        let service = APIService()
-        let viewModel = MainViewModel(service: service)
-        let viewController = MainViewController(mainViewModel: viewModel)
-        
-        navigationController.setViewControllers([viewController], animated: false)
+        let mainViewController = serviceLocator.makeMainViewController(coordinator: self)
+        navigationController.setViewControllers([mainViewController], animated: false)
+    }
+
+    func showDetail(for product: Product) {
+        let detailViewController = serviceLocator.makeDetailViewController(product: product)
+        navigationController.pushViewController(detailViewController, animated: true)
     }
 }

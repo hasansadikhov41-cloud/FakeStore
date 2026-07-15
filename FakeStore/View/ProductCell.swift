@@ -3,8 +3,8 @@ import UIKit
 import SDWebImage
 
 class ProductCell : UICollectionViewCell {
-    
-    var buttonTapped : (() -> Void)?
+    var onShipButtonTapped: (() -> Void)?
+
     
     private let productImage : UIImageView = {
         let imageView = UIImageView()
@@ -73,8 +73,8 @@ class ProductCell : UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    @objc func buttonTapp(){
-        buttonTapped?()
+    @objc private func buttonTapp() {
+        onShipButtonTapped?()
     }
 
     override func prepareForReuse() {
@@ -82,6 +82,7 @@ class ProductCell : UICollectionViewCell {
         productImage.image = nil
         productTitle.text = nil
         priceLabel.text = nil
+        onShipButtonTapped = nil
     }
     private func setupViews(){
         contentView.addSubview(productImage)

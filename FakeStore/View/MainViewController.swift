@@ -6,9 +6,11 @@ class MainViewController : UIViewController {
     
     let mainViewModel : MainViewModel
     var cancellables = Set<AnyCancellable>()
+    private weak var coordinator: AppCoordinatorProtocol?
     
-    init(mainViewModel: MainViewModel) {
+    init(mainViewModel: MainViewModel, coordinator: AppCoordinatorProtocol) {
         self.mainViewModel = mainViewModel
+        self.coordinator = coordinator
         super.init(nibName: nil , bundle: nil)
     }
     
@@ -79,7 +81,6 @@ class MainViewController : UIViewController {
         collectionView.register(ProductCell.self, forCellWithReuseIdentifier: ProductCell.identifier)
         view.addSubview(collectionView)
         
-        collectionView.delegate = self
         collectionView.dataSource = self
         
         NSLayoutConstraint.activate([
@@ -101,10 +102,6 @@ class MainViewController : UIViewController {
     
 }
 
-extension MainViewController : UICollectionViewDelegate {
-    
-}
-
 extension MainViewController : UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
        return mainViewModel.numberOfItems
@@ -113,10 +110,10 @@ extension MainViewController : UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductCell.identifier, for: indexPath) as! ProductCell
         let selectedProduct = mainViewModel.productList[indexPath.row]
-        cell.buttonTapped = {
-            print(selectedProduct.price)
-        }
         cell.configure(product: selectedProduct)
+        cell.onShipButtonTapped = { [weak self] in
+            self?.coordinator?.showDetail(for: selectedProduct)
+        }
         return cell
     }
     
