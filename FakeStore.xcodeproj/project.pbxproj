@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A0205995300761C30084DD38 /* AppServiceLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0205994300761B40084DD38 /* AppServiceLocator.swift */; };
 		A0205993300761AD0084DD38 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = A0205992300761AD0084DD38 /* Swinject */; };
+		A0205995300761C30084DD38 /* AppServiceLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0205994300761B40084DD38 /* AppServiceLocator.swift */; };
 		A0205997300764FB0084DD38 /* MainViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0205996300764F10084DD38 /* MainViewFactory.swift */; };
 		A020599D3007735F0084DD38 /* DetailViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A020599C300773570084DD38 /* DetailViewFactory.swift */; };
 		A0B6E3E2300601D500EDB83A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0B6E3DA300601D500EDB83A /* Assets.xcassets */; };
@@ -82,10 +82,10 @@
 			children = (
 				A0B6E3EC300601FF00EDB83A /* Model */,
 				A0B6E3EE3006020900EDB83A /* Service */,
-				A0B6E3ED3006020500EDB83A /* Flow */,
 				A0B6E3EB300601FA00EDB83A /* ViewModel */,
 				A0B6E3EA300601F400EDB83A /* View */,
 				A0B6E3E9300601E500EDB83A /* Assets */,
+				A0B6E3ED3006020500EDB83A /* Flow */,
 				A0B6E3E8300601D800EDB83A /* Delegates */,
 				A0B6E3DC300601D500EDB83A /* Info.plist */,
 			);
@@ -116,10 +116,10 @@
 			isa = PBXGroup;
 			children = (
 				A020599C300773570084DD38 /* DetailViewFactory.swift */,
-				A0205996300764F10084DD38 /* MainViewFactory.swift */,
 				A0C2A5FD30065F3A00ECD8ED /* DetailViewController.swift */,
 				A0B6E3F73006120600EDB83A /* ProductCell.swift */,
 				A0B6E3F3300610B300EDB83A /* MainViewController.swift */,
+				A0205996300764F10084DD38 /* MainViewFactory.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
